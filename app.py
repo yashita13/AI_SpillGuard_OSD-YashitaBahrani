@@ -18,7 +18,7 @@ def load_model():
     # The app will look for the model file in the same repository
     # --- THIS IS THE NEW LOGIC ---
     checkpoint_path = "improved_model_checkpoint.pth"
-    MODEL_URL = "PASTE_YOUR_GITHUB_RELEASE_LINK_HERE" # <--- IMPORTANT
+    MODEL_URL = "https://github.com/yashita13/AI_SpillGuard_OSD-YashitaBahrani/releases/download/v1.0.0/improved_model_checkpoint.pth" # <--- IMPORTANT
 
     # Download the model file if it doesn't exist
     if not os.path.exists(checkpoint_path):
@@ -88,3 +88,4 @@ if uploaded_file is not None and model is not None:
 elif model is None:
 
     st.header("Model Not Loaded")
+
