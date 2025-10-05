@@ -3,3 +3,4 @@ torch
 segmentation-models-pytorch
 opencv-python-headless
 albumentations
+requests
