@@ -76,14 +76,18 @@ if uploaded_file is not None and model is not None:
         if spill_pixel_count > (pred_mask_resized.size * 0.01): # Area threshold
             # Check the color of the detected region in the original image
             spill_pixels = original_image[pred_mask_resized == 1]
-            avg_color = np.mean(spill_pixels, axis=0)
+            avg_color = np.mean(spill_pixels, axis=0) if len(spill_pixels) > 0 else [0, 0, 0]
             avg_red, avg_green, avg_blue = avg_color[0], avg_color[1], avg_color[2]
+            is_likely_land = (avg_green > avg_blue * 1.05) and (avg_red + avg_green + avg_blue > 150)
             
             # Heuristic: Land is often greener than it is blue. Oil on water is not.
-            if not (avg_green > avg_blue * 1.05): # If not significantly green
+            if not is_likely_land:
                  is_spill = True
-            else: # If it is green, override the decision
-                 spill_pixel_count = 0 
+            else:
+                 # It's likely land, so reset the spill count for consistent UI
+                 spill_pixel_count = 0
+                 # Also reset the mask so the overlay is not shown
+                 pred_mask_resized = np.zeros_like(pred_mask_resized)
 
 
     # --- 4. NEW and IMPROVED UI Section ---
@@ -119,5 +123,6 @@ if uploaded_file is not None and model is not None:
 elif model is None:
 
     st.header("Model Not Loaded")
+
 
 
