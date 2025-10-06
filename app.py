@@ -63,7 +63,8 @@ if uploaded_file is not None and model is not None:
         transform = A.Compose([A.Resize(256, 256), A.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5)), ToTensorV2()])
         input_tensor = transform(image=original_image)['image'].unsqueeze(0).to(device)
         with torch.no_grad():
-            pred_mask_raw = (torch.sigmoid(model(input_tensor)).squeeze().cpu().numpy() > 0.85).astype(np.uint8)
+            pred_mask_raw = (torch.sigmoid(model(input_tensor)).squeeze().cpu().numpy() > 0.65).astype(np.uint8)
+
 
         # --- 2. Post-Processing ---
         kernel = np.ones((5, 5), np.uint8)
@@ -114,6 +115,7 @@ if uploaded_file is not None and model is not None:
 elif model is None:
 
     st.header("Model Not Loaded")
+
 
 
 
