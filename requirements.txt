@@ -4,3 +4,6 @@ segmentation-models-pytorch
 opencv-python-headless
 albumentations
 requests
+Pillow
+scikit-image
+matplotlib
